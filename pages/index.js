@@ -2,8 +2,12 @@ import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
 import { getBaseUrl } from "nextjs-url";
-const host = getBaseUrl().href;
+import { useEffect } from "react";
 const Index = ({ data }) => {
+  useEffect(() => {
+    const baseUrl = getBaseUrl().href;
+    console.log(baseUrl);
+  }, []);
   return (
     <div className="notes-container">
       <h1>Notes</h1>
@@ -36,7 +40,7 @@ const Index = ({ data }) => {
   );
 };
 export async function getStaticProps() {
-  const res = await fetch(`${host}/api/notes`);
+  const res = await fetch(`${process.env.BASE_URL}/api/notes`);
   const { data } = await res.json();
   return {
     props: {

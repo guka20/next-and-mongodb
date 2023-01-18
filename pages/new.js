@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
-import { getBaseUrl } from "nextjs-url";
-const host = getBaseUrl().href;
 const NewNote = () => {
   const [form, setForm] = useState({ title: "", description: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +20,7 @@ const NewNote = () => {
 
   const createNote = async () => {
     try {
-      const res = await fetch(`${host}/api/notes`, {
+      const res = await fetch(`${process.env.BASE_URL}/api/notes`, {
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
-import { getBaseUrl } from "nextjs-url";
-const host = getBaseUrl().href;
+
 const EditNote = ({ data }) => {
+  console.log(host);
   const [form, setForm] = useState({
     title: data.title,
     description: data.description,
@@ -25,17 +25,14 @@ const EditNote = ({ data }) => {
 
   const editNote = async () => {
     try {
-      const res = await fetch(
-        `${host}/api/notes/${router.query.id}`,
-        {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        }
-      );
+      const res = await fetch(`${process.env.BASE_URL}/api/notes/${router.query.id}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
       router.push("/");
     } catch (error) {
       console.log(error);
