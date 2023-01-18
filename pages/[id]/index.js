@@ -2,7 +2,8 @@ import fetch from "isomorphic-unfetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Confirm, Button, Loader } from "semantic-ui-react";
-
+import { getBaseUrl } from "nextjs-url";
+const host = getBaseUrl().href;
 const Note = ({ data }) => {
   const [confirm, setConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -50,7 +51,7 @@ const Note = ({ data }) => {
   );
 };
 export async function getStaticPaths() {
-  const res = await fetch(`${process.env.BASE_URL}/api/notes/`);
+  const res = await fetch(`${host}/api/notes/`);
   const { data } = await res.json();
   const paths = data?.map((post) => ({
     params: { id: post._id },
@@ -62,7 +63,7 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps(context) {
   const { id } = context.params;
-  const res = await fetch(`${process.env.BASE_URL}/api/notes/${id}`);
+  const res = await fetch(`${host}/api/notes/${id}`);
   const { data } = await res.json();
   return {
     props: {

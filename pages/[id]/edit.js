@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
-
+import { getBaseUrl } from "nextjs-url";
+const host = getBaseUrl().href;
 const EditNote = ({ data }) => {
   const [form, setForm] = useState({
     title: data.title,
@@ -25,7 +26,7 @@ const EditNote = ({ data }) => {
   const editNote = async () => {
     try {
       const res = await fetch(
-        `${process.env.BASE_URL}/api/notes/${router.query.id}`,
+        `${host}/api/notes/${router.query.id}`,
         {
           method: "PUT",
           headers: {
@@ -105,7 +106,7 @@ const EditNote = ({ data }) => {
   );
 };
 export async function getStaticPaths() {
-  const res = await fetch(`${process.env.BASE_URL}/api/notes/`);
+  const res = await fetch(`${host}/api/notes/`);
   const { data } = await res.json();
   const paths = data.map((l) => ({
     params: { id: l._id },
@@ -117,7 +118,7 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps(context) {
   const { id } = context.params;
-  const res = await fetch(`${process.env.BASE_URL}/api/notes/${id}`);
+  const res = await fetch(`${host}/api/notes/${id}`);
   const { data } = await res.json();
   return {
     props: {
