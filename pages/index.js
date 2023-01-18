@@ -1,8 +1,10 @@
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
-
+import { useRouter } from "next/router";
 const Index = ({ notes }) => {
+  const router = useRouter();
+  // console.log();
   return (
     <div className="notes-container">
       <h1>Notes</h1>

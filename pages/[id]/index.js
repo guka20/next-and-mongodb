@@ -19,9 +19,14 @@ const Note = ({ note }) => {
   const deleteNote = async () => {
     const noteId = router.query.id;
     try {
-      const deleted = await fetch(`http://localhost:3000/api/notes/${noteId}`, {
-        method: "DELETE",
-      });
+      const deleted = await fetch(
+        `${
+          process.env.BASE_URL ? process.env.BASE_URL : "http://localhost:3000"
+        }/api/notes/${noteId}`,
+        {
+          method: "DELETE",
+        }
+      );
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -49,7 +54,9 @@ const Note = ({ note }) => {
 
 Note.getInitialProps = async ({ query: { id } }) => {
   const res = await fetch(
-    `${process.env.BASE_URL || "http://localhost:3000"}/api/notes/${id}`
+    `${
+      process.env.BASE_URL ? process.env.BASE_URL : "http://localhost:3000"
+    }/api/notes/${id}`
   );
   const { data } = await res.json();
 
