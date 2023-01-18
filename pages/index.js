@@ -1,10 +1,7 @@
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
-import { useRouter } from "next/router";
 const Index = ({ notes }) => {
-  const router = useRouter();
-  // console.log();
   return (
     <div className="notes-container">
       <h1>Notes</h1>
@@ -38,11 +35,7 @@ const Index = ({ notes }) => {
 };
 
 Index.getInitialProps = async () => {
-  const res = await fetch(
-    `${
-      process.env.BASE_URL ? process.env.BASE_URL : "http://localhost:3000"
-    }/api/notes`
-  );
+  const res = await fetch(`${process.env.BASE_URL}/api/notes`);
   const { data } = await res.json();
 
   return {
