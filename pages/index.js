@@ -37,7 +37,9 @@ const Index = ({ notes }) => {
 
 Index.getInitialProps = async () => {
   const res = await fetch(
-    `${process.env.BASE_URL || "http://localhost:3000"}/api/notes`
+    `${
+      process.env.BASE_URL ? process.env.BASE_URL : "http://localhost:3000"
+    }/api/notes`
   );
   const { data } = await res.json();
 
