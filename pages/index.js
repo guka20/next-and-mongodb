@@ -42,13 +42,13 @@ export async function getStaticProps() {
     },
   };
 }
-Index.getInitialProps = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/notes`);
-  const { data } = await res.json();
+// Index.getInitialProps = async () => {
+//   const res = await fetch(`${process.env.BASE_URL}/api/notes`);
+//   const { data } = await res.json();
 
-  return {
-    notes: data,
-  };
-};
+//   return {
+//     notes: data,
+//   };
+// };
 
 export default Index;
