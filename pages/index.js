@@ -1,12 +1,12 @@
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
-const Index = ({ notes }) => {
+const Index = ({ data }) => {
   return (
     <div className="notes-container">
       <h1>Notes</h1>
       <div className="grid wrapper">
-        {notes?.map((note) => {
+        {data?.map((note) => {
           return (
             <div key={note._id}>
               <Card>
@@ -35,20 +35,12 @@ const Index = ({ notes }) => {
 };
 export async function getStaticProps() {
   const res = await fetch(`${process.env.BASE_URL}/api/notes`);
-  const { notes } = await res.json();
+  const { data } = await res.json();
   return {
     props: {
-      notes,
+      data,
     },
   };
 }
-// Index.getInitialProps = async () => {
-//   const res = await fetch(`${process.env.BASE_URL}/api/notes`);
-//   const { data } = await res.json();
-
-//   return {
-//     notes: data,
-//   };
-// };
 
 export default Index;
