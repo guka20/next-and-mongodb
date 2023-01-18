@@ -4,10 +4,10 @@ import fetch from "isomorphic-unfetch";
 import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
-const EditNote = ({ note }) => {
+const EditNote = ({ data }) => {
   const [form, setForm] = useState({
-    title: note.title,
-    description: note.description,
+    title: data.title,
+    description: data.description,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -106,12 +106,25 @@ const EditNote = ({ note }) => {
     </div>
   );
 };
-
-EditNote.getInitialProps = async ({ query: { id } }) => {
+export async function getStaticPaths() {
+  const res = await fetch(`${process.env.BASE_URL}/api/notes/`);
+  const { data } = await res.json();
+  const paths = data.map((l) => ({
+    params: { id: l._id },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+}
+export async function getStaticProps(context) {
+  const { id } = context.params;
   const res = await fetch(`${process.env.BASE_URL}/api/notes/${id}`);
   const { data } = await res.json();
-
-  return { note: data };
-};
-
+  return {
+    props: {
+      data,
+    },
+  };
+}
 export default EditNote;

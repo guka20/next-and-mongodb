@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Confirm, Button, Loader } from "semantic-ui-react";
 
-const Note = ({ note }) => {
+const Note = ({ data }) => {
   const [confirm, setConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -20,9 +20,7 @@ const Note = ({ note }) => {
     const noteId = router.query.id;
     try {
       const deleted = await fetch(
-        `${
-          process.env.BASE_URL ? process.env.BASE_URL : "http://localhost:3000"
-        }/api/notes/${noteId}`,
+        `${process.env.BASE_URL}/api/notes/${noteId}`,
         {
           method: "DELETE",
         }
@@ -40,8 +38,8 @@ const Note = ({ note }) => {
         <Loader active />
       ) : (
         <>
-          <h1>{note.title}</h1>
-          <p>{note.description}</p>
+          <h1>{data.title}</h1>
+          <p>{data.description}</p>
           <Button color="red" onClick={open}>
             Delete
           </Button>
@@ -51,11 +49,26 @@ const Note = ({ note }) => {
     </div>
   );
 };
-
-Note.getInitialProps = async ({ query: { id } }) => {
+export async function getStaticPaths() {
+  const res = await fetch(`${process.env.BASE_URL}/api/notes/`);
+  const { data } = await res.json();
+  const paths = data?.map((post) => ({
+    params: { id: post._id },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+}
+export async function getStaticProps(context) {
+  const { id } = context.params;
   const res = await fetch(`${process.env.BASE_URL}/api/notes/${id}`);
   const { data } = await res.json();
+  return {
+    props: {
+      data,
+    },
+  };
+}
 
-  return { note: data };
-};
 export default Note;
