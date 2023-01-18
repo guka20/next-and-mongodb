@@ -33,7 +33,15 @@ const Index = ({ notes }) => {
     </div>
   );
 };
-
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.BASE_URL}/api/notes`);
+  const { notes } = await res.json();
+  return {
+    props: {
+      notes,
+    },
+  };
+}
 Index.getInitialProps = async () => {
   const res = await fetch(`${process.env.BASE_URL}/api/notes`);
   const { data } = await res.json();
