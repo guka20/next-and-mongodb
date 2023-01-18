@@ -25,7 +25,7 @@ const EditNote = ({ note }) => {
   const editNote = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/notes/${router.query.id}`,
+        `${process.env.BASE_URL || "http://localhost:3000"}/api/notes/${router.query.id}`,
         {
           method: "PUT",
           headers: {
