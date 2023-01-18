@@ -68,7 +68,6 @@ const NewNote = () => {
         ) : (
           <Form onSubmit={handleSubmit}>
             <Form.Input
-              fluid
               error={
                 errors.title
                   ? { content: "Please enter a title", pointing: "below" }
@@ -80,7 +79,6 @@ const NewNote = () => {
               onChange={handleChange}
             />
             <Form.TextArea
-              fluid
               error={
                 errors.description
                   ? { content: "Please enter a description", pointing: "below" }
