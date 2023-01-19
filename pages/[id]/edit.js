@@ -5,7 +5,6 @@ import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
 const EditNote = ({ data }) => {
-  console.log(host);
   const [form, setForm] = useState({
     title: data.title,
     description: data.description,
